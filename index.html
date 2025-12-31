@@ -14,6 +14,7 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
         :root {
             --morn-grad: linear-gradient(135deg, #f1c40f, #f39c12);
             --even-grad: linear-gradient(135deg, #e67e22, #d35400);
@@ -22,39 +23,109 @@
             --stats-grad: linear-gradient(135deg, #ff8c00, #ff4500);
             --font-size: 1.1rem;
         }
-        body { font-family: 'Tajawal', sans-serif; margin: 0; background: #fdfdfd; color: #333; transition: 0.3s; font-size: var(--font-size); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        .header { padding: 20px; display: flex; justify-content: flex-end; position: absolute; width: 100%; box-sizing: border-box; z-index: 10; }
-        .icon-btn { background: rgba(0,0,0,0.05); border: none; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.3rem; }
-        .home-screen { padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; justify-content: center; }
-        .main-logo { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to bottom, #003a70, #0056a4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
-        .quote { color: #888; font-size: 1.1rem; margin-bottom: 30px; }
-        .prayer-card { background: #003a70; color: white; width: 100%; max-width: 350px; border-radius: 25px; padding: 18px; display: flex; justify-content: space-around; margin-bottom: 25px; font-size: 0.85rem; box-shadow: 0 10px 20px rgba(0,58,112,0.2); }
-        .prayer-card b { display: block; font-size: 1rem; margin-top: 5px; }
-        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
-        .grid-btn { aspect-ratio: 1/1; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .grid-btn i { font-size: 2.2rem; margin-bottom: 12px; background: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        body { 
+            font-family: 'Tajawal', sans-serif; margin: 0; background: #fdfdfd; 
+            color: #333; overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+        }
+
+        /* إصلاح الهيدر لمنع تداخل التروس */
+        .header { 
+            padding: 15px; display: flex; justify-content: flex-end; 
+            position: relative; width: 100%; box-sizing: border-box; z-index: 10; 
+        }
+
+        .icon-btn { 
+            background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; 
+        }
+
+        .home-screen { 
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 10px 20px 40px; text-align: center;
+        }
+
+        .main-logo { 
+            font-size: 3rem; font-weight: 900; color: #003a70; margin: 10px 0 5px; 
+        }
+
+        .quote { color: #888; font-size: 1rem; margin-bottom: 25px; }
+
+        .prayer-card { 
+            background: #003a70; color: white; width: 100%; max-width: 350px; 
+            border-radius: 20px; padding: 15px; display: flex; justify-content: space-around; 
+            margin-bottom: 25px; font-size: 0.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .prayer-card b { display: block; font-size: 0.95rem; margin-top: 4px; }
+
+        .buttons-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+            width: 100%; max-width: 350px; 
+        }
+
+        .grid-btn { 
+            aspect-ratio: 1/1; border-radius: 25px; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; color: white; font-weight: bold; 
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.2s;
+        }
+        .grid-btn:active { transform: scale(0.96); }
+        .grid-btn i { 
+            font-size: 2rem; margin-bottom: 10px; background: white; 
+            width: 55px; height: 55px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; 
+        }
+
         .morn { background: var(--morn-grad); } .morn i { color: #f39c12; }
         .even { background: var(--even-grad); } .even i { color: #d35400; }
         .sleep { background: var(--sleep-grad); } .sleep i { color: #2980b9; }
         .count { background: var(--count-grad); } .count i { color: #27ae60; }
-        .stats { background: var(--stats-grad); grid-column: span 2; aspect-ratio: auto; padding: 20px; } .stats i { color: #ff4500; }
-        .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; z-index: 1000; }
+        .stats { 
+            background: var(--stats-grad); grid-column: span 2; 
+            aspect-ratio: auto; padding: 20px; 
+        } 
+        .stats i { color: #ff4500; }
+
+        /* الصفحات الداخلية */
+        .page { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            display: none; flex-direction: column; z-index: 1000; 
+        }
         .page.active { display: flex; }
-        .page-top { width: 100%; background: white; padding: 20px 0; text-align: center; border-bottom: 1px solid #eee; }
-        .page-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .white-card { background: white; width: 70%; min-height: 220px; border-radius: 30px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 25px; font-weight: bold; color: #333; box-shadow: 0 15px 35px rgba(0,0,0,0.2); font-size: var(--font-size); }
-        .nav-arrow { background: rgba(255,255,255,0.3); border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; color: white; cursor: pointer; }
-        .counter-circle { width: 140px; height: 140px; border-radius: 50%; border: 8px solid rgba(255,255,255,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; margin-top: 35px; cursor: pointer; transition: 0.1s; }
-        .count-val { font-size: 3rem; font-weight: bold; }
-        .control-btns { display: flex; gap: 8px; margin-top: 25px; flex-wrap: wrap; justify-content: center; }
-        .btn-small { background: rgba(255,255,255,0.2); border: 1.5px solid white; color: white; padding: 10px 15px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+        .page-top { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+
+        .white-card-container { 
+            display: flex; align-items: center; width: 100%; 
+            max-width: 400px; justify-content: space-between; gap: 10px;
+        }
+        .white-card { 
+            background: white; flex: 1; min-height: 200px; border-radius: 25px; 
+            display: flex; align-items: center; justify-content: center; 
+            text-align: center; padding: 20px; font-weight: bold; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-size: var(--font-size); 
+        }
+
+        .nav-arrow { 
+            background: rgba(255,255,255,0.2); border: none; width: 45px; 
+            height: 45px; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer;
+        }
+
+        .counter-circle { 
+            width: 130px; height: 130px; border-radius: 50%; border: 6px solid white; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            color: white; margin-top: 30px; cursor: pointer; 
+        }
+        .count-val { font-size: 2.5rem; font-weight: bold; }
+
         .fade { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        #editOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .edit-box { background: white; width: 90%; max-width: 400px; border-radius: 20px; padding: 20px; max-height: 80vh; overflow-y: auto; }
-        .edit-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; gap: 10px; }
-        .edit-item span { flex: 1; font-size: 0.9rem; }
-        .edit-item button { padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        #editOverlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); z-index: 2000; display: none; 
+            justify-content: center; align-items: center; 
+        }
+        .edit-box { background: white; width: 85%; border-radius: 20px; padding: 20px; }
     </style>
 </head>
 <body>
@@ -66,6 +137,7 @@
     <div class="home-screen fade" id="home">
         <div class="main-logo">طمأنينة</div>
         <p class="quote">ألا بذكر الله تطمئن القلوب</p>
+        
         <div class="prayer-card">
             <div>الفجر<br><b id="fajr">--:--</b></div>
             <div>الظهر<br><b id="dhuhr">--:--</b></div>
@@ -73,6 +145,7 @@
             <div>المغرب<br><b id="maghrib">--:--</b></div>
             <div>العشاء<br><b id="isha">--:--</b></div>
         </div>
+
         <div class="buttons-grid">
             <div class="grid-btn morn" onclick="start('morning')"><i>☀️</i> أذكار الصباح</div>
             <div class="grid-btn even" onclick="start('evening')"><i>🌇</i> أذكار المساء</div>
@@ -83,30 +156,103 @@
     </div>
 
     <div id="dhikrPage" class="page">
-        <div class="page-top"><i id="topIcon" style="font-size: 1.5rem;">☀️</i><br><b id="topTitle">أذكار الصباح</b></div>
+        <div class="page-top"><b id="topTitle">أذكار</b></div>
         <div class="page-content" id="pgContent">
-            <div style="display: flex; align-items: center; width: 95%; justify-content: space-between;">
+            <div class="white-card-container">
                 <button class="nav-arrow" onclick="next(event)">➡️</button>
                 <div class="white-card fade" id="txt">...</div>
                 <button class="nav-arrow" onclick="prev(event)">⬅️</button>
             </div>
+            
             <div class="counter-circle" onclick="handleTap()">
                 <div class="count-val" id="num">0</div>
-                <div style="font-size:0.8rem; font-weight:bold;" id="countLabel">المتبقي</div>
+                <div style="font-size:0.8rem;">المتبقي</div>
             </div>
-            <div class="control-btns">
-                <button id="addBtn" class="btn-small" style="display:none;" onclick="addCustom()">+ إضافة</button>
-                <button id="editBtn" class="btn-small" style="display:none;" onclick="showEditMenu()">⚙️ تعديل</button>
-                <button class="btn-small" onclick="resetProg(event)">البداية</button>
-                <button class="btn-small" onclick="closePages(event)">خروج</button>
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button id="addBtn" class="icon-btn" style="display:none; color:white; border:1px solid white;" onclick="addCustom()">+</button>
+                <button id="editBtn" class="icon-btn" style="display:none; color:white; border:1px solid white;" onclick="showEditMenu()">⚙️</button>
+                <button onclick="resetProg(event)" style="background:none; border:1px solid white; color:white; padding:5px 15px; border-radius:10px;">البداية</button>
+                <button onclick="closePages(event)" style="background:none; border:1px solid white; color:white; padding:5px 15px; border-radius:10px;">خروج</button>
             </div>
         </div>
     </div>
 
-    <div id="editOverlay">
-        <div class="edit-box">
-            <h3>تعديل أذكار العداد</h3>
-            <div id="editList"></div>
+    <div id="statsPage" class="page" style="background:white;">
+        <div class="page-top"><b>الإحصائيات</b></div>
+        <div class="page-content">
+            <h1 id="todayCount" style="font-size:4rem; color:orange;">0</h1>
+            <p>ذكر اليوم</p>
+            <button onclick="closePages()" style="padding:10px 40px; border-radius:10px;">عودة</button>
+        </div>
+    </div>
+
+    <script>
+        // دالة تحويل الوقت
+        function format12h(t) { let [h,m]=t.split(':'); h=parseInt(h); let ap=h>=12?'م':'ص'; h=h%12||12; return h+':'+m+' '+ap; }
+
+        const morningList = [{t:"آية الكرسي", c:1}, {t:"الإخلاص والفلق والناس", c:3}, {t:"أصبحنا وأصبح الملك لله", c:1}];
+        const eveningList = [{t:"آية الكرسي", c:1}, {t:"الإخلاص والفلق والناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
+        const sleepList = [{t:"آية الكرسي", c:1}, {t:"سورة الملك", c:1}, {t:"باسمك ربي وضعت جنبي", c:1}];
+
+        let customCounterList = JSON.parse(localStorage.getItem('customDhikr')) || [{t:"أستغفر الله", c:0}];
+        const data = {
+            morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
+            evening: { title:"أذكار المساء", grad:"var(--even-grad)", list: eveningList },
+            sleep: { title:"أذكار النوم", grad:"var(--sleep-grad)", list: sleepList },
+            counter: { title:"العداد", grad:"var(--count-grad)", list: customCounterList, inf:true }
+        };
+
+        let active = '', idx = 0, count = 0;
+
+        function start(type) {
+            active = type; idx = 0; count = data[type].list[idx].c;
+            document.getElementById('topTitle').innerText = data[type].title;
+            document.getElementById('pgContent').style.background = data[type].grad;
+            document.getElementById('addBtn').style.display = type === 'counter' ? 'block' : 'none';
+            document.getElementById('editBtn').style.display = type === 'counter' ? 'block' : 'none';
+            openPage('dhikrPage');
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('txt').innerText = data[active].list[idx].t;
+            document.getElementById('num').innerText = count;
+        }
+
+        function handleTap() {
+            if(data[active].inf) count++; 
+            else if(count > 0) count--;
+            
+            let s = parseInt(localStorage.getItem('todayStats')) || 0;
+            localStorage.setItem('todayStats', s + 1);
+            document.getElementById('todayCount').innerText = s + 1;
+            updateUI();
+        }
+
+        function next() { if(idx < data[active].list.length-1) { idx++; count=data[active].list[idx].c; updateUI(); } }
+        function prev() { if(idx > 0) { idx--; count=data[active].list[idx].c; updateUI(); } }
+        function openPage(id) { document.getElementById(id).classList.add('active'); }
+        function closePages() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+        function resetProg() { idx=0; count=data[active].list[0].c; updateUI(); }
+
+        // جلب المواقيت
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(p => {
+                fetch(`https://api.aladhan.com/v1/timings?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&method=4`)
+                .then(r=>r.json()).then(res => {
+                    const t = res.data.timings;
+                    document.getElementById('fajr').innerText = format12h(t.Fajr);
+                    document.getElementById('dhuhr').innerText = format12h(t.Dhuhr);
+                    document.getElementById('asr').innerText = format12h(t.Asr);
+                    document.getElementById('maghrib').innerText = format12h(t.Maghrib);
+                    document.getElementById('isha').innerText = format12h(t.Isha);
+                });
+            });
+        }
+    </script>
+</body>
+</html>            <div id="editList"></div>
             <button onclick="document.getElementById('editOverlay').style.display='none'" style="width:100%; margin-top:15px; padding:10px; background:#333; color:white; border-radius:10px; border:none;">إغلاق</button>
         </div>
     </div>
