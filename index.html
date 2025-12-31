@@ -7,137 +7,110 @@
     
     <link rel="apple-touch-icon" href="https://i.ibb.co/Fbndx8dy/image.png">
     <link rel="icon" type="image/png" href="https://i.ibb.co/Fbndx8dy/image.png">
-    <meta property="og:image" content="https://i.ibb.co/Fbndx8dy/image.png">
     
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
         
         :root {
+            --bg-color: #fdfdfd;
+            --text-color: #333;
+            --card-bg: white;
+            --header-btn: rgba(0,0,0,0.05);
             --morn-grad: linear-gradient(135deg, #f1c40f, #f39c12);
             --even-grad: linear-gradient(135deg, #e67e22, #d35400);
             --sleep-grad: linear-gradient(135deg, #2980b9, #2c3e50);
             --count-grad: linear-gradient(135deg, #27ae60, #16a085);
             --stats-grad: linear-gradient(135deg, #ff8c00, #ff4500);
-            --font-size: 1.1rem;
+        }
+
+        /* تنسيقات الوضع الداكن */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --header-btn: rgba(255,255,255,0.1);
         }
 
         body { 
-            font-family: 'Tajawal', sans-serif; margin: 0; background: #fdfdfd; 
-            color: #333; overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+            font-family: 'Tajawal', sans-serif; margin: 0; background: var(--bg-color); 
+            color: var(--text-color); transition: 0.3s; overflow-x: hidden; -webkit-tap-highlight-color: transparent;
         }
 
-        /* إصلاح الهيدر لمنع تداخل التروس */
         .header { 
-            padding: 15px; display: flex; justify-content: flex-end; 
-            position: relative; width: 100%; box-sizing: border-box; z-index: 10; 
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
         }
 
         .icon-btn { 
-            background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; 
+            background: var(--header-btn); border: none; width: 40px; height: 40px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem;
         }
 
-        .home-screen { 
-            display: flex; flex-direction: column; align-items: center; 
-            padding: 10px 20px 40px; text-align: center;
-        }
+        .home-screen { display: flex; flex-direction: column; align-items: center; padding: 0 20px 40px; text-align: center; }
 
-        .main-logo { 
-            font-size: 3rem; font-weight: 900; color: #003a70; margin: 10px 0 5px; 
-        }
+        .main-logo-img { width: 180px; height: auto; margin: 10px 0; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
 
-        .quote { color: #888; font-size: 1rem; margin-bottom: 25px; }
+        .quote { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+
+        .location-tag { font-size: 0.8rem; color: #003a70; margin-bottom: 5px; font-weight: bold; }
+        [data-theme="dark"] .location-tag { color: #4dabff; }
 
         .prayer-card { 
             background: #003a70; color: white; width: 100%; max-width: 350px; 
             border-radius: 20px; padding: 15px; display: flex; justify-content: space-around; 
-            margin-bottom: 25px; font-size: 0.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 25px; font-size: 0.75rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .prayer-card b { display: block; font-size: 0.95rem; margin-top: 4px; }
+        .prayer-card b { display: block; font-size: 0.9rem; margin-top: 4px; }
 
-        .buttons-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
-            width: 100%; max-width: 350px; 
-        }
+        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
 
         .grid-btn { 
             aspect-ratio: 1/1; border-radius: 25px; display: flex; flex-direction: column; 
             align-items: center; justify-content: center; color: white; font-weight: bold; 
-            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.2s;
+            cursor: pointer; transition: 0.2s;
         }
-        .grid-btn:active { transform: scale(0.96); }
-        .grid-btn i { 
-            font-size: 2rem; margin-bottom: 10px; background: white; 
-            width: 55px; height: 55px; border-radius: 50%; display: flex; 
-            align-items: center; justify-content: center; 
-        }
+        .grid-btn i { font-size: 1.8rem; margin-bottom: 8px; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         .morn { background: var(--morn-grad); } .morn i { color: #f39c12; }
         .even { background: var(--even-grad); } .even i { color: #d35400; }
         .sleep { background: var(--sleep-grad); } .sleep i { color: #2980b9; }
         .count { background: var(--count-grad); } .count i { color: #27ae60; }
-        .stats { 
-            background: var(--stats-grad); grid-column: span 2; 
-            aspect-ratio: auto; padding: 20px; 
-        } 
-        .stats i { color: #ff4500; }
+        .stats { background: var(--stats-grad); grid-column: span 2; aspect-ratio: auto; padding: 15px; } 
 
-        /* الصفحات الداخلية */
-        .page { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            display: none; flex-direction: column; z-index: 1000; 
-        }
+        .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; z-index: 1000; }
         .page.active { display: flex; }
-        .page-top { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        .page-top { background: var(--card-bg); padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
         .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
 
-        .white-card-container { 
-            display: flex; align-items: center; width: 100%; 
-            max-width: 400px; justify-content: space-between; gap: 10px;
-        }
         .white-card { 
-            background: white; flex: 1; min-height: 200px; border-radius: 25px; 
-            display: flex; align-items: center; justify-content: center; 
-            text-align: center; padding: 20px; font-weight: bold; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-size: var(--font-size); 
-        }
-
-        .nav-arrow { 
-            background: rgba(255,255,255,0.2); border: none; width: 45px; 
-            height: 45px; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer;
+            background: var(--card-bg); width: 85%; min-height: 180px; border-radius: 25px; 
+            display: flex; align-items: center; justify-content: center; text-align: center; 
+            padding: 20px; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 1.2rem;
         }
 
         .counter-circle { 
-            width: 130px; height: 130px; border-radius: 50%; border: 6px solid white; 
+            width: 120px; height: 120px; border-radius: 50%; border: 5px solid white; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: white; margin-top: 30px; cursor: pointer; 
+            color: white; margin-top: 30px; cursor: pointer; transition: 0.1s;
         }
-        .count-val { font-size: 2.5rem; font-weight: bold; }
+        .counter-circle:active { transform: scale(0.9); }
+        .count-val { font-size: 2.2rem; font-weight: bold; }
 
         .fade { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        #editOverlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); z-index: 2000; display: none; 
-            justify-content: center; align-items: center; 
-        }
-        .edit-box { background: white; width: 85%; border-radius: 20px; padding: 20px; }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <div class="header">
+        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         <button class="icon-btn" onclick="openPage('settingsPage')">⚙️</button>
     </div>
 
     <div class="home-screen fade" id="home">
-        <div class="main-logo">طمأنينة</div>
+        <img src="https://i.ibb.co/Fbndx8dy/image.png" alt="لوجو طمأنينة" class="main-logo-img">
         <p class="quote">ألا بذكر الله تطمئن القلوب</p>
         
+        <div class="location-tag" id="cityLabel">جاري تحديد الموقع...</div>
         <div class="prayer-card">
             <div>الفجر<br><b id="fajr">--:--</b></div>
             <div>الظهر<br><b id="dhuhr">--:--</b></div>
@@ -158,98 +131,156 @@
     <div id="dhikrPage" class="page">
         <div class="page-top"><b id="topTitle">أذكار</b></div>
         <div class="page-content" id="pgContent">
-            <div class="white-card-container">
-                <button class="nav-arrow" onclick="next(event)">➡️</button>
-                <div class="white-card fade" id="txt">...</div>
-                <button class="nav-arrow" onclick="prev(event)">⬅️</button>
-            </div>
+            <div class="white-card fade" id="txt">...</div>
             
             <div class="counter-circle" onclick="handleTap()">
                 <div class="count-val" id="num">0</div>
-                <div style="font-size:0.8rem;">المتبقي</div>
+                <div style="font-size:0.7rem;" id="tapLabel">المتبقي</div>
             </div>
 
-            <div style="display:flex; gap:10px; margin-top:20px;">
-                <button id="addBtn" class="icon-btn" style="display:none; color:white; border:1px solid white;" onclick="addCustom()">+</button>
-                <button id="editBtn" class="icon-btn" style="display:none; color:white; border:1px solid white;" onclick="showEditMenu()">⚙️</button>
-                <button onclick="resetProg(event)" style="background:none; border:1px solid white; color:white; padding:5px 15px; border-radius:10px;">البداية</button>
-                <button onclick="closePages(event)" style="background:none; border:1px solid white; color:white; padding:5px 15px; border-radius:10px;">خروج</button>
+            <div style="display:flex; gap:10px; margin-top:30px;">
+                <button onclick="closePages()" style="background:rgba(255,255,255,0.2); border:1px solid white; color:white; padding:8px 25px; border-radius:12px;">خروج</button>
+                <button onclick="resetProg()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:8px 15px; border-radius:12px;">إعادة</button>
             </div>
         </div>
     </div>
 
-    <div id="statsPage" class="page" style="background:white;">
+    <div id="statsPage" class="page" style="background:var(--bg-color);">
         <div class="page-top"><b>الإحصائيات</b></div>
         <div class="page-content">
-            <h1 id="todayCount" style="font-size:4rem; color:orange;">0</h1>
-            <p>ذكر اليوم</p>
-            <button onclick="closePages()" style="padding:10px 40px; border-radius:10px;">عودة</button>
+            <h1 id="todayCount" style="font-size:4.5rem; color:var(--stats-grad); margin:0;">0</h1>
+            <p>إجمالي الأذكار اليوم</p>
+            <button onclick="closePages()" style="margin-top:20px; padding:12px 50px; border-radius:15px; border:none; background:#003a70; color:white;">عودة</button>
         </div>
     </div>
 
     <script>
-        // دالة تحويل الوقت
-        function format12h(t) { let [h,m]=t.split(':'); h=parseInt(h); let ap=h>=12?'م':'ص'; h=h%12||12; return h+':'+m+' '+ap; }
+        // --- 1. إعدادات البيانات والذكاء ---
+        const morningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أصبحنا وأصبح الملك لله", c:1}];
+        const eveningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
+        const sleepList = [{t:"باسمك ربي وضعت جنبي", c:1}, {t:"اللهم قني عذابك يوم تبعث عبادك", c:3}];
 
-        const morningList = [{t:"آية الكرسي", c:1}, {t:"الإخلاص والفلق والناس", c:3}, {t:"أصبحنا وأصبح الملك لله", c:1}];
-        const eveningList = [{t:"آية الكرسي", c:1}, {t:"الإخلاص والفلق والناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
-        const sleepList = [{t:"آية الكرسي", c:1}, {t:"سورة الملك", c:1}, {t:"باسمك ربي وضعت جنبي", c:1}];
-
-        let customCounterList = JSON.parse(localStorage.getItem('customDhikr')) || [{t:"أستغفر الله", c:0}];
         const data = {
             morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
             evening: { title:"أذكار المساء", grad:"var(--even-grad)", list: eveningList },
             sleep: { title:"أذكار النوم", grad:"var(--sleep-grad)", list: sleepList },
-            counter: { title:"العداد", grad:"var(--count-grad)", list: customCounterList, inf:true }
+            counter: { title:"العداد الحر", grad:"var(--count-grad)", list: [{t:"سبحان الله وبحمده", c:0}], inf:true }
         };
 
-        let active = '', idx = 0, count = 0;
+        let active = '', idx = 0, currentCount = 0;
 
+        // --- 2. نظام الحفظ الدائم ---
+        function saveStat() {
+            let total = parseInt(localStorage.getItem('totalDhikr')) || 0;
+            total++;
+            localStorage.setItem('totalDhikr', total);
+            document.getElementById('todayCount').innerText = total;
+        }
+
+        window.onload = () => {
+            document.getElementById('todayCount').innerText = localStorage.getItem('totalDhikr') || 0;
+            if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
+            loadLocationAndPrayers();
+        };
+
+        // --- 3. نظام الوضع الداكن ---
+        function toggleTheme(init = false) {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if(!init) {
+                body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+            } else {
+                body.dataset.theme = 'dark';
+            }
+            localStorage.setItem('theme', body.dataset.theme);
+            btn.innerText = body.dataset.theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // --- 4. منطق الأذكار والانتقال التلقائي ---
         function start(type) {
-            active = type; idx = 0; count = data[type].list[idx].c;
+            active = type; idx = 0; 
+            currentCount = data[type].list[idx].c;
             document.getElementById('topTitle').innerText = data[type].title;
             document.getElementById('pgContent').style.background = data[type].grad;
-            document.getElementById('addBtn').style.display = type === 'counter' ? 'block' : 'none';
-            document.getElementById('editBtn').style.display = type === 'counter' ? 'block' : 'none';
+            document.getElementById('tapLabel').innerText = data[type].inf ? "عداد" : "المتبقي";
             openPage('dhikrPage');
             updateUI();
         }
 
-        function updateUI() {
-            document.getElementById('txt').innerText = data[active].list[idx].t;
-            document.getElementById('num').innerText = count;
-        }
-
         function handleTap() {
-            if(data[active].inf) count++; 
-            else if(count > 0) count--;
-            
-            let s = parseInt(localStorage.getItem('todayStats')) || 0;
-            localStorage.setItem('todayStats', s + 1);
-            document.getElementById('todayCount').innerText = s + 1;
+            if (data[active].inf) {
+                currentCount++;
+            } else {
+                if (currentCount > 0) currentCount--;
+                
+                // الانتقال التلقائي للذكر التالي
+                if (currentCount === 0) {
+                    if (window.navigator.vibrate) window.navigator.vibrate(50); // اهتزاز بسيط
+                    setTimeout(() => {
+                        if (idx < data[active].list.length - 1) {
+                            idx++;
+                            currentCount = data[active].list[idx].c;
+                            updateUI();
+                        } else {
+                            alert("تم بحمد الله الانتهاء من الأذكار");
+                            closePages();
+                        }
+                    }, 400);
+                }
+            }
+            saveStat();
             updateUI();
         }
 
-        function next() { if(idx < data[active].list.length-1) { idx++; count=data[active].list[idx].c; updateUI(); } }
-        function prev() { if(idx > 0) { idx--; count=data[active].list[idx].c; updateUI(); } }
+        function updateUI() {
+            const txtEl = document.getElementById('txt');
+            txtEl.innerText = data[active].list[idx].t;
+            document.getElementById('num').innerText = currentCount;
+            // تأثير وميض عند التغيير
+            txtEl.classList.remove('fade');
+            void txtEl.offsetWidth; 
+            txtEl.classList.add('fade');
+        }
+
+        // --- 5. الموقع والمواقيت ---
+        function loadLocationAndPrayers() {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    
+                    // جلب اسم المدينة
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`)
+                    .then(r => r.json()).then(d => {
+                        const city = d.address.city || d.address.town || d.address.state || "موقعك الحالي";
+                        document.getElementById('cityLabel').innerText = "📍 " + city;
+                    });
+
+                    // جلب المواقيت
+                    fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
+                    .then(r => r.json()).then(res => {
+                        const t = res.data.timings;
+                        const format = (v) => {
+                            let [h, m] = v.split(':');
+                            h = parseInt(h);
+                            let a = h >= 12 ? 'م' : 'ص';
+                            return (h % 12 || 12) + ':' + m + ' ' + a;
+                        };
+                        document.getElementById('fajr').innerText = format(t.Fajr);
+                        document.getElementById('dhuhr').innerText = format(t.Dhuhr);
+                        document.getElementById('asr').innerText = format(t.Asr);
+                        document.getElementById('maghrib').innerText = format(t.Maghrib);
+                        document.getElementById('isha').innerText = format(t.Isha);
+                    });
+                }, () => {
+                    document.getElementById('cityLabel').innerText = "📍 مكة المكرمة (افتراضي)";
+                });
+            }
+        }
+
         function openPage(id) { document.getElementById(id).classList.add('active'); }
         function closePages() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
-        function resetProg() { idx=0; count=data[active].list[0].c; updateUI(); }
-
-        // جلب المواقيت
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(p => {
-                fetch(`https://api.aladhan.com/v1/timings?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&method=4`)
-                .then(r=>r.json()).then(res => {
-                    const t = res.data.timings;
-                    document.getElementById('fajr').innerText = format12h(t.Fajr);
-                    document.getElementById('dhuhr').innerText = format12h(t.Dhuhr);
-                    document.getElementById('asr').innerText = format12h(t.Asr);
-                    document.getElementById('maghrib').innerText = format12h(t.Maghrib);
-                    document.getElementById('isha').innerText = format12h(t.Isha);
-                });
-            });
-        }
+        function resetProg() { idx = 0; currentCount = data[active].list[0].c; updateUI(); }
     </script>
 </body>
 </html>
