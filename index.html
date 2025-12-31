@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>طمأنينة</title>
+    
+    <link rel="apple-touch-icon" href="https://i.ibb.co/Y7N1yD0/image.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Y7N1yD0/image.png">
+    <meta property="og:image" content="https://i.ibb.co/Y7N1yD0/image.png">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        :root {
+            --morn-grad: linear-gradient(135deg, #f1c40f, #f39c12);
+            --even-grad: linear-gradient(135deg, #e67e22, #d35400);
+            --sleep-grad: linear-gradient(135deg, #2980b9, #2c3e50);
+            --count-grad: linear-gradient(135deg, #27ae60, #16a085);
+            --stats-grad: linear-gradient(135deg, #ff8c00, #ff4500);
+            --font-size: 1.1rem;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif; margin: 0; background: #fdfdfd; 
+            color: #333; transition: 0.3s; font-size: var(--font-size);
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+        }
+
+        .header { padding: 20px; display: flex; justify-content: flex-end; position: absolute; width: 100%; box-sizing: border-box; z-index: 10; }
+        .icon-btn { background: rgba(0,0,0,0.05); border: none; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.3rem; }
+
+        .home-screen { padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; justify-content: center; }
+        .main-logo { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to bottom, #003a70, #0056a4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
+        .quote { color: #888; font-size: 1.1rem; margin-bottom: 30px; }
+        
+        .prayer-card {
+            background: #003a70; color: white; width: 100%; max-width: 350px;
+            border-radius: 25px; padding: 18px; display: flex; justify-content: space-around;
+            margin-bottom: 25px; font-size: 0.85rem; box-shadow: 0 10px 20px rgba(0,58,112,0.2);
+        }
+        .prayer-card b { display: block; font-size: 1rem; margin-top: 5px; }
+
+        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
+        .grid-btn {
+            aspect-ratio: 1/1; border-radius: 30px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); transition: transform 0.2s;
+        }
+        .grid-btn:active { transform: scale(0.95); }
+        .grid-btn i { font-size: 2.2rem; margin-bottom: 12px; background: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        
+        .morn { background: var(--morn-grad); } .morn i { color: #f39c12; }
+        .even { background: var(--even-grad); } .even i { color: #d35400; }
+        .sleep { background: var(--sleep-grad); } .sleep i { color: #2980b9; }
+        .count { background: var(--count-grad); } .count i { color: #27ae60; }
+        .stats { background: var(--stats-grad); grid-column: span 2; aspect-ratio: auto; padding: 20px; } .stats i { color: #ff4500; }
+
+        .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; z-index: 1000; }
+        .page.active { display: flex; }
+        .page-top { width: 100%; background: white; padding: 20px 0; text-align: center; border-bottom: 1px solid #eee; }
+        .page-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.5s; }
+        
+        .white-card-container { display: flex; align-items: center; width: 95%; justify-content: space-between; gap: 10px; }
+        .white-card {
+            background: white; width: 70%; min-height: 220px; border-radius: 30px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            padding: 25px; font-weight: bold; color: #333; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            font-size: var(--font-size); line-height: 1.6;
+        }
+        
+        .nav-arrow { background: rgba(255,255,255,0.3); border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; color: white; cursor: pointer; }
+
+        .counter-circle { 
+            width: 140px; height: 140px; border-radius: 50%; border: 8px solid rgba(255,255,255,0.8); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            color: white; margin-top: 35px; cursor: pointer; transition: 0.1s; user-select: none;
+        }
+        .counter-circle:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+        .count-val { font-size: 3rem; font-weight: bold; }
+        
+        .control-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; justify-content: center; }
+        .btn-small { background: rgba(255,255,255,0.2); border: 1.5px solid white; color: white; padding: 10px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: bold; cursor: pointer; }
+
+        .fade { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <button class="icon-btn" onclick="openPage('settingsPage')">⚙️</button>
+    </div>
+
+    <div class="home-screen fade" id="home">
+        <div class="main-logo">طمأنينة</div>
+        <p class="quote">ألا بذكر الله تطمئن القلوب</p>
+        <div class="prayer-card">
+            <div>الفجر<br><b id="fajr">--:--</b></div>
+            <div>الظهر<br><b id="dhuhr">--:--</b></div>
+            <div>العصر<br><b id="asr">--:--</b></div>
+            <div>المغرب<br><b id="maghrib">--:--</b></div>
+            <div>العشاء<br><b id="isha">--:--</b></div>
+        </div>
+        <div class="buttons-grid">
+            <div class="grid-btn morn" onclick="start('morning')"><i>☀️</i> أذكار الصباح</div>
+            <div class="grid-btn even" onclick="start('evening')"><i>🌇</i> أذكار المساء</div>
+            <div class="grid-btn count" onclick="start('counter')"><i>📿</i> العداد</div>
+            <div class="grid-btn sleep" onclick="start('sleep')"><i>🌙</i> أذكار النوم</div>
+            <div class="grid-btn stats" onclick="openPage('statsPage')"><i>📊</i> الإحصائيات</div>
+        </div>
+    </div>
+
+    <div id="dhikrPage" class="page">
+        <div class="page-top">
+            <i id="topIcon" style="font-size: 1.5rem;">☀️</i><br>
+            <b id="topTitle">أذكار الصباح</b>
+        </div>
+        <div class="page-content" id="pgContent">
+            <div class="white-card-container">
+                <button class="nav-arrow" onclick="prev(event)">⬅️</button>
+                <div class="white-card fade" id="txt">...</div>
+                <button class="nav-arrow" onclick="next(event)">➡️</button>
+            </div>
+            <div class="counter-circle" id="tapZone" onclick="handleTap()">
+                <div class="count-val" id="num">0</div>
+                <div style="font-size:0.8rem; font-weight:bold;" id="countLabel">المتبقي</div>
+            </div>
+            <div class="control-btns">
+                <button id="addBtn" class="btn-small" style="display:none;" onclick="addCustom(event)">+ إضافة ذكر</button>
+                <button class="btn-small" onclick="resetProg(event)">البداية</button>
+                <button class="btn-small" onclick="closePages(event)">خروج</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsPage" class="page" style="background:#fff">
+        <div class="page-top"><b>الإعدادات</b></div>
+        <div style="padding:20px; display:flex; flex-direction:column; gap:15px; width:85%;">
+            <label>حجم الخط</label>
+            <select onchange="changeFontSize(this.value)" style="padding:12px; border-radius:12px; border:1px solid #ddd; font-family:inherit;">
+                <option value="1rem">صغير</option>
+                <option value="1.1rem" selected>عادي</option>
+                <option value="1.3rem">كبير</option>
+                <option value="1.6rem">كبير جداً</option>
+            </select>
+            <button onclick="shareApp()" style="padding:15px; background:#f8f9fa; border:1px solid #eee; border-radius:12px; font-weight:bold;">🔗 أنشر التطبيق</button>
+            <button onclick="closePages(event)" style="padding:15px; background:#333; color:white; border:none; border-radius:12px; font-weight:bold;">إغلاق</button>
+        </div>
+    </div>
+
+    <div id="statsPage" class="page" style="background:#fff">
+        <div class="page-top"><b>إحصائيات اليوم</b></div>
+        <div style="padding:40px; text-align:center;">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">إجمالي الأذكار اليوم</div>
+            <h1 id="todayCount" style="font-size:5rem; color:#ff4500; margin:0;">0</h1>
+            <button onclick="closePages(event)" style="padding:15px; width:100%; background:#eee; border:none; border-radius:12px; margin-top:30px; font-weight:bold;">عودة للرئيسية</button>
+        </div>
+    </div>
+
+    <script>
+        // دالة تحويل الوقت لنظام 12 ساعة
+        function format12h(timeStr) {
+            let [h, m] = timeStr.split(':');
+            h = parseInt(h);
+            let ampm = h >= 12 ? 'م' : 'ص';
+            h = h % 12 || 12;
+            return `${h}:${m} ${ampm}`;
+        }
+
+        const morningList = [
+            {t:"آية الكرسي", c:1}, {t:"سورة الإخلاص + الفلق + الناس (3 مرات)", c:3},
+            {t:"أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له...", c:1},
+            {t:"اللهم بك أصبحنا، وبك أمسينا، وبك نحيا، وبك نموت، وإليك النشور", c:1},
+            {t:"سيد الاستغفار: اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك...", c:1},
+            {t:"رضيت بالله ربًا وبالإسلام دينًا وبمحمد ﷺ نبيًا", c:3},
+            {t:"حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم", c:7},
+            {t:"بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء", c:3},
+            {t:"سبحان الله وبحمده", c:100},
+            {t:"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير", c:100}
+        ];
+        const eveningList = morningList.map(i => ({ t: i.t.replace(/أصبح/g, "أمسى").replace(/النشور/g, "المصير"), c: i.c }));
+        const sleepList = [
+            {t:"آية الكرسي", c:1}, {t:"الإخلاص + الفلق + الناس (3 مرات)", c:3},
+            {t:"باسمك ربي وضعت جنبي وبك أرفعه...", c:1},
+            {t:"سبحان الله (33)، الحمد لله (33)، الله أكبر (34)", c:1},
+            {t:"باسمك اللهم أموت وأحيا", c:1}
+        ];
+
+        let customCounterList = JSON.parse(localStorage.getItem('customDhikr')) || [{t:"أستغفر الله", c:0}];
+        const data = {
+            morning: { title:"أذكار الصباح", icon:"☀️", grad:"var(--morn-grad)", list: morningList },
+            evening: { title:"أذكار المساء", icon:"🌇", grad:"var(--even-grad)", list: eveningList },
+            sleep: { title:"أذكار النوم", icon:"🌙", grad:"var(--sleep-grad)", list: sleepList },
+            counter: { title:"العداد", icon:"📿", grad:"var(--count-grad)", list: customCounterList, inf:true }
+        };
+
+        let active = '', idx = 0, count = 0;
+
+        function start(type) {
+            active = type; idx = 0; count = data[type].list[idx].c;
+            document.getElementById('topIcon').innerText = data[type].icon;
+            document.getElementById('topTitle').innerText = data[type].title;
+            document.getElementById('pgContent').style.background = data[type].grad;
+            document.getElementById('addBtn').style.display = type === 'counter' ? 'block' : 'none';
+            document.getElementById('countLabel').innerText = data[type].inf ? "العدد" : "المتبقي";
+            openPage('dhikrPage');
+            updateUI();
+        }
+
+        function updateUI() {
+            const item = data[active].list[idx];
+            const txtEl = document.getElementById('txt');
+            txtEl.innerText = item.t;
+            document.getElementById('num').innerText = count;
+            txtEl.classList.remove('fade'); void txtEl.offsetWidth; txtEl.classList.add('fade');
+        }
+
+        function handleTap() {
+            if(data[active].inf) { 
+                count++; 
+            } else { 
+                if(count > 0) count--;
+                if(count === 0) {
+                    if(idx < data[active].list.length - 1) { next(); return; }
+                    else { alert("تم بحمد الله الانتهاء من الأذكار"); closePages(); return; }
+                } 
+            }
+            let today = parseInt(localStorage.getItem('todayStats')) || 0;
+            localStorage.setItem('todayStats', today + 1);
+            document.getElementById('todayCount').innerText = today + 1;
+            updateUI();
+            if(navigator.vibrate) navigator.vibrate(35);
+        }
+
+        function resetProg(e) {
+            e.stopPropagation();
+            idx = 0;
+            count = data[active].list[0].c;
+            updateUI();
+        }
+
+        function addCustom(e) {
+            e.stopPropagation();
+            const text = prompt("أدخل الذكر الجديد:");
+            if (text) {
+                data.counter.list.push({t: text, c: 0});
+                localStorage.setItem('customDhikr', JSON.stringify(data.counter.list));
+                idx = data.counter.list.length - 1; count = 0; updateUI();
+            }
+        }
+
+        function next(e) { if(e) e.stopPropagation(); if(idx < data[active].list.length-1) { idx++; count=data[active].list[idx].c; updateUI(); } }
+        function prev(e) { if(e) e.stopPropagation(); if(idx > 0) { idx--; count=data[active].list[idx].c; updateUI(); } }
+        function openPage(id) { document.getElementById(id).classList.add('active'); }
+        function closePages(e) { if(e) e.stopPropagation(); document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+        function changeFontSize(s) { document.documentElement.style.setProperty('--font-size', s); }
+        function shareApp() {
+            const url = window.location.href;
+            if(navigator.share) navigator.share({title:'تطبيق طمأنينة', url:url});
+            else prompt("انسخ الرابط:", url);
+        }
+
+        // جلب المواقيت وتنسيقها
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=4`)
+                .then(r=>r.json()).then(res => {
+                    const t = res.data.timings;
+                    document.getElementById('fajr').innerText = format12h(t.Fajr);
+                    document.getElementById('dhuhr').innerText = format12h(t.Dhuhr);
+                    document.getElementById('asr').innerText = format12h(t.Asr);
+                    document.getElementById('maghrib').innerText = format12h(t.Maghrib);
+                    document.getElementById('isha').innerText = format12h(t.Isha);
+                });
+            });
+        }
+        document.getElementById('todayCount').innerText = localStorage.getItem('todayStats') || 0;
+    </script>
+</body>
+</html>
