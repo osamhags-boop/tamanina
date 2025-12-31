@@ -6,45 +6,28 @@
     <title>طمأنينة</title>
     
     <style>
-        /* تعريف الخطوط المرسلة */
-        @font-face {
-            font-family: 'ExpoArabic';
-            src: url('alfont_com_AlFont_com_ExpoArabic-Light.ttf') format('truetype');
-            font-weight: 300;
-        }
-        @font-face {
-            font-family: 'ExpoArabic';
-            src: url('alfont_com_AlFont_com_ExpoArabic-Medium.ttf') format('truetype');
-            font-weight: 500;
-        }
-        @font-face {
-            font-family: 'ExpoArabic';
-            src: url('alfont_com_AlFont_com_ExpoArabic-Bold.otf') format('opentype');
-            font-weight: bold;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
         :root {
             --bg-color: #fdfdfd;
             --text-color: #333;
             --card-bg: #ffffff;
             --header-btn: rgba(0,0,0,0.05);
-            --gold-color: #d4af37; /* لون كلمة طمأنينة */
+            --gold-color: #d4af37;
             --morn-grad: linear-gradient(135deg, #f1c40f, #f39c12);
             --even-grad: linear-gradient(135deg, #e67e22, #d35400);
             --sleep-grad: linear-gradient(135deg, #2980b9, #2c3e50);
             --count-grad: linear-gradient(135deg, #27ae60, #16a085);
             --stats-grad: linear-gradient(135deg, #ff8c00, #ff4500);
+            --font-size: 1.3rem; /* حجم الخط الافتراضي */
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --header-btn: rgba(255,255,255,0.1);
+            --bg-color: #121212; --text-color: #e0e0e0; --card-bg: #1e1e1e; --header-btn: rgba(255,255,255,0.1);
         }
 
         body { 
-            font-family: 'ExpoArabic', sans-serif; margin: 0; background: var(--bg-color); 
+            font-family: 'Tajawal', sans-serif; margin: 0; background: var(--bg-color); 
             color: var(--text-color); transition: 0.3s; overflow-x: hidden; -webkit-tap-highlight-color: transparent;
         }
 
@@ -52,60 +35,55 @@
         .icon-btn { background: var(--header-btn); border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; }
 
         .home-screen { display: flex; flex-direction: column; align-items: center; padding: 0 20px 40px; text-align: center; }
+        .main-logo-text { font-size: 3.5rem; font-weight: 900; color: var(--gold-color); margin: 15px 0 5px; }
+        .quote { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
 
-        /* كلمة طمأنينة بدلاً من الصورة */
-        .main-logo-text { 
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: var(--gold-color);
-            margin: 20px 0 5px;
-            letter-spacing: -1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .quote { color: #888; font-size: 1rem; margin-bottom: 25px; font-weight: 300; }
-        .location-tag { font-size: 0.9rem; color: #003a70; margin-bottom: 8px; font-weight: 500; }
-        [data-theme="dark"] .location-tag { color: #4dabff; }
-
-        .prayer-card { 
+        /* حاوية الصلاة والمتبقي */
+        .prayer-container {
             background: #003a70; color: white; width: 100%; max-width: 360px; 
-            border-radius: 22px; padding: 18px; display: flex; justify-content: space-around; 
-            margin-bottom: 30px; font-size: 0.85rem; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-radius: 22px; padding: 15px 0; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
-        .prayer-card b { display: block; font-size: 1.1rem; margin-top: 5px; font-weight: bold; }
+        .location-tag { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; font-weight: 500; }
+        .prayer-card { display: flex; justify-content: space-around; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; }
+        .prayer-card b { display: block; font-size: 0.9rem; margin-top: 4px; }
+        .next-prayer-timer { font-size: 0.85rem; font-weight: bold; color: #f1c40f; }
 
-        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 360px; }
-        .grid-btn { aspect-ratio: 1/1; border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .grid-btn i { font-size: 2rem; margin-bottom: 10px; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
+        .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 360px; }
+        .grid-btn { aspect-ratio: 1/1; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .grid-btn i { font-size: 1.8rem; margin-bottom: 8px; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .morn { background: var(--morn-grad); } .morn i { color: #f39c12; }
         .even { background: var(--even-grad); } .even i { color: #d35400; }
         .sleep { background: var(--sleep-grad); } .sleep i { color: #2980b9; }
         .count { background: var(--count-grad); } .count i { color: #27ae60; }
-        .stats-btn { background: var(--stats-grad); grid-column: span 2; aspect-ratio: auto; padding: 20px; border-radius: 22px; font-size: 1.2rem; }
+        .stats-btn { background: var(--stats-grad); grid-column: span 2; aspect-ratio: auto; padding: 18px; border-radius: 20px; font-size: 1.1rem; }
 
+        /* صفحة الذكر */
         .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; z-index: 1000; }
         .page.active { display: flex; }
-        .page-top { background: var(--card-bg); padding: 18px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .page-top b { font-weight: bold; font-size: 1.2rem; }
-        .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; }
-
+        .page-top { background: var(--card-bg); padding: 15px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .white-card { 
-            background: var(--card-bg); width: 85%; min-height: 220px; border-radius: 30px; 
+            background: var(--card-bg); width: 85%; min-height: 180px; border-radius: 25px; 
             display: flex; align-items: center; justify-content: center; text-align: center; 
-            padding: 25px; font-weight: 500; box-shadow: 0 15px 35px rgba(0,0,0,0.2); font-size: 1.4rem; line-height: 1.6;
+            padding: 20px; font-weight: bold; box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            font-size: var(--font-size); /* الحجم المتغير */
+            line-height: 1.5;
         }
 
         .counter-circle { 
-            width: 140px; height: 140px; border-radius: 50%; border: 6px solid white; 
+            width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: white; margin-top: 40px; cursor: pointer; transition: 0.1s;
+            color: white; margin-top: 35px; cursor: pointer; transition: 0.1s;
         }
-        .counter-circle:active { transform: scale(0.92); }
-        .count-val { font-size: 3.5rem; font-weight: bold; }
+        .count-val { font-size: 2.8rem; font-weight: bold; }
+
+        /* الإعدادات */
+        .settings-item { width: 90%; background: var(--card-bg); margin-bottom: 15px; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .reset-btn { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 10px; font-family: 'Tajawal'; font-weight: bold; }
+        .share-btn { background: #003a70; color: white; border: none; padding: 10px 25px; border-radius: 12px; margin-top: 20px; width: 100%; font-weight: bold; font-family: 'Tajawal'; }
 
         .fade { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body data-theme="light">
@@ -119,13 +97,16 @@
         <div class="main-logo-text">طمأنينة</div>
         <p class="quote">ألا بذكر الله تطمئن القلوب</p>
         
-        <div class="location-tag" id="cityLabel">تحديد الموقع...</div>
-        <div class="prayer-card">
-            <div>الفجر<br><b id="fajr">--:--</b></div>
-            <div>الظهر<br><b id="dhuhr">--:--</b></div>
-            <div>العصر<br><b id="asr">--:--</b></div>
-            <div>المغرب<br><b id="maghrib">--:--</b></div>
-            <div>العشاء<br><b id="isha">--:--</b></div>
+        <div class="prayer-container">
+            <div class="location-tag" id="cityLabel">تحديد الموقع...</div>
+            <div class="prayer-card">
+                <div>الفجر<br><b id="fajr">--:--</b></div>
+                <div>الظهر<br><b id="dhuhr">--:--</b></div>
+                <div>العصر<br><b id="asr">--:--</b></div>
+                <div>المغرب<br><b id="maghrib">--:--</b></div>
+                <div>العشاء<br><b id="isha">--:--</b></div>
+            </div>
+            <div class="next-prayer-timer" id="timeRemaining">--:--:--</div>
         </div>
 
         <div class="buttons-grid">
@@ -135,6 +116,26 @@
             <div class="grid-btn sleep" onclick="start('sleep')"><i>🌙</i> أذكار النوم</div>
             <div class="grid-btn stats-btn" onclick="openPage('statsPage')"><i>📊</i> الإحصائيات</div>
         </div>
+        
+        <button class="share-btn" onclick="shareApp()">📤 نشر التطبيق</button>
+    </div>
+
+    <div id="settingsPage" class="page" style="background:var(--bg-color);">
+        <div class="page-top"><b>الإعدادات</b></div>
+        <div class="page-content" style="justify-content: flex-start; padding-top: 40px;">
+            <div class="settings-item">
+                <span>حجم الخط</span>
+                <div>
+                    <button onclick="changeFontSize(-0.1)" class="icon-btn" style="display:inline-flex">-</button>
+                    <button onclick="changeFontSize(0.1)" class="icon-btn" style="display:inline-flex">+</button>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span>تصفير الإحصائيات</span>
+                <button class="reset-btn" onclick="resetStats()">تصفير</button>
+            </div>
+            <button onclick="closePages()" style="margin-top:20px; padding:10px 40px; border-radius:12px; background:#888; color:white; border:none;">حفظ وإغلاق</button>
+        </div>
     </div>
 
     <div id="dhikrPage" class="page">
@@ -143,11 +144,10 @@
             <div class="white-card fade" id="txt">...</div>
             <div class="counter-circle" onclick="handleTap()">
                 <div class="count-val" id="num">0</div>
-                <div style="font-size:0.9rem;" id="tapLabel">المتبقي</div>
+                <div style="font-size:0.8rem;" id="tapLabel">المتبقي</div>
             </div>
-            <div style="display:flex; gap:15px; margin-top:40px;">
-                <button onclick="closePages()" style="background:rgba(255,255,255,0.25); border:2px solid white; color:white; padding:12px 35px; border-radius:18px; font-weight:bold; font-family:'ExpoArabic';">خروج</button>
-                <button onclick="resetProg()" style="background:none; border:none; color:white; padding:10px; font-family:'ExpoArabic';">إعادة</button>
+            <div style="display:flex; gap:12px; margin-top:40px;">
+                <button onclick="closePages()" style="background:rgba(255,255,255,0.25); border:1.5px solid white; color:white; padding:10px 30px; border-radius:15px; font-weight:bold;">خروج</button>
             </div>
         </div>
     </div>
@@ -155,17 +155,9 @@
     <div id="statsPage" class="page" style="background:var(--bg-color);">
         <div class="page-top"><b>الإحصائيات</b></div>
         <div class="page-content">
-            <h1 id="totalStatDisplay" style="font-size:6rem; color:var(--stats-grad); margin:0;">0</h1>
-            <p style="font-size:1.3rem; font-weight:500;">إجمالي الأذكار المحفوظة</p>
-            <button onclick="closePages()" style="margin-top:40px; padding:18px 70px; border-radius:22px; border:none; background:#003a70; color:white; font-weight:bold; font-family:'ExpoArabic'; cursor:pointer;">عودة</button>
-        </div>
-    </div>
-
-    <div id="settingsPage" class="page" style="background:var(--bg-color);">
-        <div class="page-top"><b>الإعدادات</b></div>
-        <div class="page-content">
-            <p>خط العرض الحالي: Expo Arabic</p>
-            <button onclick="closePages()" style="padding:12px 50px; border-radius:15px; background:#888; color:white; border:none; font-family:'ExpoArabic';">إغلاق</button>
+            <h1 id="totalStatDisplay" style="font-size:5rem; color:var(--stats-grad); margin:0;">0</h1>
+            <p style="font-size:1.2rem;">إجمالي التسبيح</p>
+            <button onclick="closePages()" style="margin-top:30px; padding:15px 60px; border-radius:18px; border:none; background:#003a70; color:white; font-weight:bold;">عودة</button>
         </div>
     </div>
 
@@ -174,24 +166,47 @@
         const eveningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
         const sleepList = [{t:"باسمك ربي وضعت جنبي", c:1}, {t:"سورة الملك", c:1}];
 
-        const data = {
-            morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
-            evening: { title:"أذكار المساء", grad:"var(--even-grad)", list: eveningList },
-            sleep: { title:"أذكار النوم", grad:"var(--sleep-grad)", list: sleepList },
-            counter: { title:"العداد الحر", grad:"var(--count-grad)", list: [{t:"سبحان الله وبحمده", c:0}], inf:true }
-        };
-
         let active = '', idx = 0, currentCount = 0;
-
-        function updateStatsUI() {
-            document.getElementById('totalStatDisplay').innerText = localStorage.getItem('totalDhikr') || 0;
-        }
+        let prayerTimings = {};
 
         window.onload = () => {
             updateStatsUI();
             if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
+            
+            // تحميل حجم الخط المحفوظ
+            const savedFS = localStorage.getItem('fontSize') || "1.3";
+            document.documentElement.style.setProperty('--font-size', savedFS + 'rem');
+            
             initLocation();
+            setInterval(updateCountdown, 1000); // تحديث التنازلي كل ثانية
         };
+
+        // تصفير الإحصائيات
+        function resetStats() {
+            if(confirm("هل تريد تصفير جميع الإحصائيات؟")) {
+                localStorage.setItem('totalDhikr', 0);
+                updateStatsUI();
+            }
+        }
+
+        // تغيير حجم الخط
+        function changeFontSize(delta) {
+            let current = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-size'));
+            let newVal = (current + delta).toFixed(1);
+            if(newVal > 0.8 && newVal < 2.5) {
+                document.documentElement.style.setProperty('--font-size', newVal + 'rem');
+                localStorage.setItem('fontSize', newVal);
+            }
+        }
+
+        // نشر التطبيق
+        function shareApp() {
+            const shareData = { title: 'طمأنينة', text: 'تطبيق أذكار ومواقيت صلاة رائع', url: window.location.href };
+            if(navigator.share) navigator.share(shareData);
+            else { alert("انسخ الرابط وشاركه: " + window.location.href); }
+        }
+
+        function updateStatsUI() { document.getElementById('totalStatDisplay').innerText = localStorage.getItem('totalDhikr') || 0; }
 
         function toggleTheme(init = false) {
             const body = document.body;
@@ -202,10 +217,9 @@
         }
 
         function start(type) {
-            active = type; idx = 0; currentCount = data[type].list[idx].c;
-            document.getElementById('topTitle').innerText = data[type].title;
-            document.getElementById('pgContent').style.background = data[type].grad;
-            document.getElementById('tapLabel').innerText = data[type].inf ? "عداد" : "المتبقي";
+            active = type; idx = 0; currentCount = data[active].list[idx].c;
+            document.getElementById('topTitle').innerText = data[active].title;
+            document.getElementById('pgContent').style.background = data[active].grad;
             openPage('dhikrPage');
             updateUI();
         }
@@ -215,27 +229,23 @@
             else {
                 if (currentCount > 0) currentCount--;
                 if (currentCount === 0) {
-                    if (window.navigator.vibrate) window.navigator.vibrate(50);
+                    if (window.navigator.vibrate) window.navigator.vibrate(40);
                     setTimeout(() => {
                         if (idx < data[active].list.length - 1) {
                             idx++; currentCount = data[active].list[idx].c; updateUI();
                         } else {
-                            alert("تم الانتهاء بحمد الله"); closePages();
+                            alert("تم بحمد الله"); closePages();
                         }
                     }, 400);
                 }
             }
-            let total = parseInt(localStorage.getItem('totalDhikr')) || 0;
-            localStorage.setItem('totalDhikr', total + 1);
-            updateStatsUI();
-            updateUI();
+            localStorage.setItem('totalDhikr', (parseInt(localStorage.getItem('totalDhikr')) || 0) + 1);
+            updateStatsUI(); updateUI();
         }
 
         function updateUI() {
-            const txtEl = document.getElementById('txt');
-            txtEl.innerText = data[active].list[idx].t;
+            document.getElementById('txt').innerText = data[active].list[idx].t;
             document.getElementById('num').innerText = currentCount;
-            txtEl.classList.remove('fade'); void txtEl.offsetWidth; txtEl.classList.add('fade');
         }
 
         function initLocation() {
@@ -247,22 +257,62 @@
                     });
                     fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=4`)
                     .then(r => r.json()).then(res => {
-                        const t = res.data.timings;
-                        const f = (v) => { let [h, m] = v.split(':'); h = parseInt(h); return (h % 12 || 12) + ':' + m + (h >= 12 ? ' م' : ' ص'); };
-                        document.getElementById('fajr').innerText = f(t.Fajr);
-                        document.getElementById('dhuhr').innerText = f(t.Dhuhr);
-                        document.getElementById('asr').innerText = f(t.Asr);
-                        document.getElementById('maghrib').innerText = f(t.Maghrib);
-                        document.getElementById('isha').innerText = f(t.Isha);
+                        prayerTimings = res.data.timings;
+                        displayTimings();
                     });
                 }, () => document.getElementById('cityLabel').innerText = "📍 مكة المكرمة");
             }
         }
 
+        function displayTimings() {
+            const f = (v) => { let [h, m] = v.split(':'); h = parseInt(h); return (h % 12 || 12) + ':' + m + (h >= 12 ? ' م' : ' ص'); };
+            document.getElementById('fajr').innerText = f(prayerTimings.Fajr);
+            document.getElementById('dhuhr').innerText = f(prayerTimings.Dhuhr);
+            document.getElementById('asr').innerText = f(prayerTimings.Asr);
+            document.getElementById('maghrib').innerText = f(prayerTimings.Maghrib);
+            document.getElementById('isha').innerText = f(prayerTimings.Isha);
+        }
+
+        function updateCountdown() {
+            if (!prayerTimings.Fajr) return;
+            const now = new Date();
+            const prayers = [
+                { name: 'الفجر', time: prayerTimings.Fajr },
+                { name: 'الظهر', time: prayerTimings.Dhuhr },
+                { name: 'العصر', time: prayerTimings.Asr },
+                { name: 'المغرب', time: prayerTimings.Maghrib },
+                { name: 'العشاء', time: prayerTimings.Isha }
+            ];
+
+            let nextP = null;
+            for (let p of prayers) {
+                let [h, m] = p.time.split(':');
+                let pDate = new Date(); pDate.setHours(h, m, 0);
+                if (pDate > now) { nextP = { name: p.name, date: pDate }; break; }
+            }
+
+            if (!nextP) { // لو عدى العشاء، الصلاة الجاية الفجر بكرة
+                let [h, m] = prayers[0].time.split(':');
+                let pDate = new Date(); pDate.setDate(pDate.getDate() + 1); pDate.setHours(h, m, 0);
+                nextP = { name: 'الفجر', date: pDate };
+            }
+
+            const diff = nextP.date - now;
+            const hrs = Math.floor(diff / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+            const secs = Math.floor((diff % 60000) / 1000);
+            document.getElementById('timeRemaining').innerText = `متبقي على صلاة ${nextP.name} ${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        const data = {
+            morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
+            evening: { title:"أذكار المساء", grad:"var(--even-grad)", list: eveningList },
+            sleep: { title:"أذكار النوم", grad:"var(--sleep-grad)", list: sleepList },
+            counter: { title:"العداد الحر", grad:"var(--count-grad)", list: [{t:"سبحان الله وبحمده", c:0}], inf:true }
+        };
+
         function openPage(id) { document.getElementById(id).classList.add('active'); }
         function closePages() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
-        function resetProg() { idx = 0; currentCount = data[active].list[0].c; updateUI(); }
     </script>
 </body>
 </html>
-
