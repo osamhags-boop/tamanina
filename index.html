@@ -1,209 +1,3 @@
-5px; text-align: center; border-bottom: 1px solid #eee; }
-        .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-
-        .white-card { 
-            background: var(--card-bg); width: 85%; min-height: 180px; border-radius: 25px; 
-            display: flex; align-items: center; justify-content: center; text-align: center; 
-            padding: 20px; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 1.2rem;
-        }
-
-        .counter-circle { 
-            width: 120px; height: 120px; border-radius: 50%; border: 5px solid white; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: white; margin-top: 30px; cursor: pointer; transition: 0.1s;
-        }
-        .counter-circle:active { transform: scale(0.9); }
-        .count-val { font-size: 2.2rem; font-weight: bold; }
-
-        .fade { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body data-theme="light">
-
-    <div class="header">
-        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        <button class="icon-btn" onclick="openPage('settingsPage')">⚙️</button>
-    </div>
-
-    <div class="home-screen fade" id="home">
-        <img src="https://i.ibb.co/Fbndx8dy/image.png" alt="لوجو طمأنينة" class="main-logo-img">
-        <p class="quote">ألا بذكر الله تطمئن القلوب</p>
-        
-        <div class="location-tag" id="cityLabel">جاري تحديد الموقع...</div>
-        <div class="prayer-card">
-            <div>الفجر<br><b id="fajr">--:--</b></div>
-            <div>الظهر<br><b id="dhuhr">--:--</b></div>
-            <div>العصر<br><b id="asr">--:--</b></div>
-            <div>المغرب<br><b id="maghrib">--:--</b></div>
-            <div>العشاء<br><b id="isha">--:--</b></div>
-        </div>
-
-        <div class="buttons-grid">
-            <div class="grid-btn morn" onclick="start('morning')"><i>☀️</i> أذكار الصباح</div>
-            <div class="grid-btn even" onclick="start('evening')"><i>🌇</i> أذكار المساء</div>
-            <div class="grid-btn count" onclick="start('counter')"><i>📿</i> العداد</div>
-            <div class="grid-btn sleep" onclick="start('sleep')"><i>🌙</i> أذكار النوم</div>
-            <div class="grid-btn stats" onclick="openPage('statsPage')"><i>📊</i> الإحصائيات</div>
-        </div>
-    </div>
-
-    <div id="dhikrPage" class="page">
-        <div class="page-top"><b id="topTitle">أذكار</b></div>
-        <div class="page-content" id="pgContent">
-            <div class="white-card fade" id="txt">...</div>
-            
-            <div class="counter-circle" onclick="handleTap()">
-                <div class="count-val" id="num">0</div>
-                <div style="font-size:0.7rem;" id="tapLabel">المتبقي</div>
-            </div>
-
-            <div style="display:flex; gap:10px; margin-top:30px;">
-                <button onclick="closePages()" style="background:rgba(255,255,255,0.2); border:1px solid white; color:white; padding:8px 25px; border-radius:12px;">خروج</button>
-                <button onclick="resetProg()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:8px 15px; border-radius:12px;">إعادة</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="statsPage" class="page" style="background:var(--bg-color);">
-        <div class="page-top"><b>الإحصائيات</b></div>
-        <div class="page-content">
-            <h1 id="todayCount" style="font-size:4.5rem; color:var(--stats-grad); margin:0;">0</h1>
-            <p>إجمالي الأذكار اليوم</p>
-            <button onclick="closePages()" style="margin-top:20px; padding:12px 50px; border-radius:15px; border:none; background:#003a70; color:white;">عودة</button>
-        </div>
-    </div>
-
-    <script>
-        // --- 1. إعدادات البيانات والذكاء ---
-        const morningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أصبحنا وأصبح الملك لله", c:1}];
-        const eveningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
-        const sleepList = [{t:"باسمك ربي وضعت جنبي", c:1}, {t:"اللهم قني عذابك يوم تبعث عبادك", c:3}];
-
-        const data = {
-            morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
-            evening: { title:"أذكار المساء", grad:"var(--even-grad)", list: eveningList },
-            sleep: { title:"أذكار النوم", grad:"var(--sleep-grad)", list: sleepList },
-            counter: { title:"العداد الحر", grad:"var(--count-grad)", list: [{t:"سبحان الله وبحمده", c:0}], inf:true }
-        };
-
-        let active = '', idx = 0, currentCount = 0;
-
-        // --- 2. نظام الحفظ الدائم ---
-        function saveStat() {
-            let total = parseInt(localStorage.getItem('totalDhikr')) || 0;
-            total++;
-            localStorage.setItem('totalDhikr', total);
-            document.getElementById('todayCount').innerText = total;
-        }
-
-        window.onload = () => {
-            document.getElementById('todayCount').innerText = localStorage.getItem('totalDhikr') || 0;
-            if(localStorage.getItem('theme') === 'dark') toggleTheme(true);
-            loadLocationAndPrayers();
-        };
-
-        // --- 3. نظام الوضع الداكن ---
-        function toggleTheme(init = false) {
-            const body = document.body;
-            const btn = document.getElementById('themeBtn');
-            if(!init) {
-                body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
-            } else {
-                body.dataset.theme = 'dark';
-            }
-            localStorage.setItem('theme', body.dataset.theme);
-            btn.innerText = body.dataset.theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // --- 4. منطق الأذكار والانتقال التلقائي ---
-        function start(type) {
-            active = type; idx = 0; 
-            currentCount = data[type].list[idx].c;
-            document.getElementById('topTitle').innerText = data[type].title;
-            document.getElementById('pgContent').style.background = data[type].grad;
-            document.getElementById('tapLabel').innerText = data[type].inf ? "عداد" : "المتبقي";
-            openPage('dhikrPage');
-            updateUI();
-        }
-
-        function handleTap() {
-            if (data[active].inf) {
-                currentCount++;
-            } else {
-                if (currentCount > 0) currentCount--;
-                
-                // الانتقال التلقائي للذكر التالي
-                if (currentCount === 0) {
-                    if (window.navigator.vibrate) window.navigator.vibrate(50); // اهتزاز بسيط
-                    setTimeout(() => {
-                        if (idx < data[active].list.length - 1) {
-                            idx++;
-                            currentCount = data[active].list[idx].c;
-                            updateUI();
-                        } else {
-                            alert("تم بحمد الله الانتهاء من الأذكار");
-                            closePages();
-                        }
-                    }, 400);
-                }
-            }
-            saveStat();
-            updateUI();
-        }
-
-        function updateUI() {
-            const txtEl = document.getElementById('txt');
-            txtEl.innerText = data[active].list[idx].t;
-            document.getElementById('num').innerText = currentCount;
-            // تأثير وميض عند التغيير
-            txtEl.classList.remove('fade');
-            void txtEl.offsetWidth; 
-            txtEl.classList.add('fade');
-        }
-
-        // --- 5. الموقع والمواقيت ---
-        function loadLocationAndPrayers() {
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-                    
-                    // جلب اسم المدينة
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`)
-                    .then(r => r.json()).then(d => {
-                        const city = d.address.city || d.address.town || d.address.state || "موقعك الحالي";
-                        document.getElementById('cityLabel').innerText = "📍 " + city;
-                    });
-
-                    // جلب المواقيت
-                    fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
-                    .then(r => r.json()).then(res => {
-                        const t = res.data.timings;
-                        const format = (v) => {
-                            let [h, m] = v.split(':');
-                            h = parseInt(h);
-                            let a = h >= 12 ? 'م' : 'ص';
-                            return (h % 12 || 12) + ':' + m + ' ' + a;
-                        };
-                        document.getElementById('fajr').innerText = format(t.Fajr);
-                        document.getElementById('dhuhr').innerText = format(t.Dhuhr);
-                        document.getElementById('asr').innerText = format(t.Asr);
-                        document.getElementById('maghrib').innerText = format(t.Maghrib);
-                        document.getElementById('isha').innerText = format(t.Isha);
-                    });
-                }, () => {
-                    document.getElementById('cityLabel').innerText = "📍 مكة المكرمة (افتراضي)";
-                });
-            }
-        }
-
-        function openPage(id) { document.getElementById(id).classList.add('active'); }
-        function closePages() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
-        function resetProg() { idx = 0; currentCount = data[active].list[0].c; updateUI(); }
-    </script>
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -211,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>طمأنينة</title>
     
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
         
@@ -246,9 +37,11 @@
 
         .home-screen { display: flex; flex-direction: column; align-items: center; padding: 0 20px 40px; text-align: center; }
 
-        /* الشعار في الأعلى */
+        /* الشعار الذهبي الشفاف في الأعلى */
         .main-logo-img { 
-            width: 220px; height: auto; margin: 20px 0 10px; 
+            width: 220px; 
+            height: auto; 
+            margin: 20px 0 10px; 
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
         }
 
@@ -264,7 +57,7 @@
         .prayer-card b { display: block; font-size: 1rem; margin-top: 5px; }
 
         .buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 360px; }
-        .grid-btn { aspect-ratio: 1/1; border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .grid-btn { aspect-ratio: 1/1; border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .grid-btn i { font-size: 2rem; margin-bottom: 10px; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         .morn { background: var(--morn-grad); } .morn i { color: #f39c12; }
@@ -305,6 +98,7 @@
 
     <div class="home-screen fade" id="home">
         <img src="https://i.ibb.co/Fbndx8dy/image.png" alt="طمأنينة" class="main-logo-img">
+        
         <p class="quote">ألا بذكر الله تطمئن القلوب</p>
         
         <div class="location-tag" id="cityLabel">جاري تحديد الموقع...</div>
@@ -345,7 +139,7 @@
         <div class="page-content">
             <h1 id="totalStatDisplay" style="font-size:5rem; color:var(--stats-grad); margin:0;">0</h1>
             <p style="font-size:1.2rem;">إجمالي الأذكار المحفوظة</p>
-            <button onclick="closePages()" style="margin-top:30px; padding:15px 60px; border-radius:18px; border:none; background:#003a70; color:white; font-weight:bold;">عودة للرئيسية</button>
+            <button onclick="closePages()" style="margin-top:30px; padding:15px 60px; border-radius:18px; border:none; background:#003a70; color:white; font-weight:bold;">عودة</button>
         </div>
     </div>
 
@@ -360,7 +154,7 @@
     <script>
         const morningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أصبحنا وأصبح الملك لله", c:1}];
         const eveningList = [{t:"آية الكرسي", c:1}, {t:"سورة الإخلاص", c:3}, {t:"سورة الفلق", c:3}, {t:"سورة الناس", c:3}, {t:"أمسينة وأمسى الملك لله", c:1}];
-        const sleepList = [{t:"باسمك ربي وضعت جنبي", c:1}, {t:"سورة الملك", c:1}];
+        const sleepList = [{t:"آية الكرسي", c:1}, {t:"سورة الملك", c:1}, {t:"باسمك ربي وضعت جنبي", c:1}];
 
         const data = {
             morning: { title:"أذكار الصباح", grad:"var(--morn-grad)", list: morningList },
